@@ -53,6 +53,11 @@ The extension is now active.
 
 Alternatively: click the toolbar icon to generate a link for the current selection.
 
+### PDF support
+
+- On PDFs, use the **right-click context menu**. The toolbar button may not have access to the PDF viewer’s selection.
+- The extension detects Chromium’s PDF viewer and builds the link using the original PDF URL plus `#:~:text=`.
+
 ---
 
 ## 📁 Project Structure
