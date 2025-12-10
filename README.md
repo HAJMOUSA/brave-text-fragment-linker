@@ -51,7 +51,56 @@ The extension is now active.
 4. The generated URL is copied automatically to your clipboard  
 5. Paste anywhere to share the deep link
 
+Alternatively: click the toolbar icon to generate a link for the current selection.
+
 ---
 
 ## 📁 Project Structure
+- `manifest.json`: Extension metadata, permissions, and background service worker.
+- `background.js`: Creates the right-click context menu and generates/copies the link.
+- `contentScript.js`: Placeholder for future enhancements (e.g., PDF-specific handling).
+- `icon.png`: Extension icon (update `manifest.json` if using a different path).
+
+---
+
+## 🔐 Permissions
+
+This extension requests the following permissions:
+- `contextMenus`: Add the right-click menu item.
+- `activeTab`: Access the current tab’s URL.
+- `scripting`: Run the link-generation function in the active tab.
+- `clipboardWrite`: Copy the generated link to your clipboard.
+
+---
+
+## 🌐 Supported Browsers
+
+- Brave (Chromium)
+- Chrome
+- Edge (Chromium)
+
+Note: Text fragments (`#:~:text=`) rely on Chromium support. They may not work in Firefox or Safari.
+
+---
+
+## ⚠️ Limitations
+
+- Works only where text is selectable. Scanned PDFs or images without OCR will not work.
+- If a page already contains a fragment in the URL, the new link replaces it.
+- Some complex pages may alter selection text (e.g., hidden characters or dynamic content).
+
+---
+
+## 🧰 Troubleshooting
+
+- Ensure you’ve highlighted text before using the context menu.
+- If the clipboard write fails, try clicking the context menu again (requires a user gesture).
+- For PDFs, verify the text is actually selectable (not an image scan).
+- If the icon doesn’t appear, check the `icons` path in `manifest.json`.
+
+---
+
+## 🔒 Privacy
+
+No data is collected or transmitted. All processing happens locally in your browser.
 

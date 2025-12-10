@@ -15,6 +15,13 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
+chrome.action.onClicked.addListener(async (tab) => {
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    function: createTextFragmentLink
+  });
+});
+
 function createTextFragmentLink() {
   const selected = window.getSelection().toString();
 
