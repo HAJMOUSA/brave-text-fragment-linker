@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Text Fragment Link Generator",
+  "description": "Generate #:~:text= fragment URLs for any highlighted text on webpages or PDFs.",
+  "version": "1.1",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "clipboardWrite"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "128": "icons/icon128.png"
+  }
+}
