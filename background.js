@@ -1,9 +1,19 @@
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: "generateTextFragment",
-    title: "Generate link to highlighted text",
-    contexts: ["selection"]
+function setupContextMenu() {
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: "generateTextFragment",
+      title: "Generate link to highlighted text",
+      contexts: ["selection"]
+    });
   });
+}
+
+chrome.runtime.onInstalled.addListener(() => {
+  setupContextMenu();
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  setupContextMenu();
 });
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
