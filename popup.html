@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deep Link Generator</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Deep Link Generated</h1>
+    
+    <div class="url-box">
+      <input type="text" id="urlInput" readonly>
+      <button id="copyBtn" title="Copy to clipboard">
+        📋 Copy
+      </button>
+    </div>
+
+    <div class="info">
+      <p id="status">URL copied to clipboard!</p>
+    </div>
+
+    <div class="preview">
+      <h3>Preview:</h3>
+      <div id="previewText" class="preview-text"></div>
+    </div>
+
+    <button id="closeBtn" class="close-btn">Close</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

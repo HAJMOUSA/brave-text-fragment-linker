@@ -45,14 +45,14 @@ function generateForWebpage(baseURL, selectedText) {
   const text = selectedText || "";
   
   if (!text) { 
-    alert("No text selected."); 
+    showPopup("", "", "No text selected.");
     return; 
   }
 
   const link = `${baseURL}#:~:text=${encodeURIComponent(text)}`;
   console.log("Generated webpage link:", link);
   writeToClipboard(link).then(() => {
-    alert("Deep link copied:\n" + link);
+    openPopup(link, text);
   });
 }
 
@@ -63,7 +63,7 @@ async function generateForPDF(baseURL, selectedText) {
   const text = selectedText?.trim() || "";
 
   if (!text) {
-    alert("No text selected. Please select text from the PDF and try again.");
+    showPopup("", "", "No text selected. Please select text from the PDF and try again.");
     return;
   }
 
@@ -73,7 +73,7 @@ async function generateForPDF(baseURL, selectedText) {
   console.log("Generated PDF link:", link);
 
   await writeToClipboard(link);
-  alert("PDF deep link copied:\n" + link);
+  openPopup(link, cleaned);
 }
 
 function normalizePDF(t) {
@@ -127,3 +127,29 @@ chrome.runtime.onMessage.addListener((msg) => {
     chrome.offscreen.closeDocument().catch(() => {});
   }
 });
+
+// Open popup window to display generated URL
+function openPopup(url, selectedText) {
+  const width = 500;
+  const height = 400;
+  
+  // Get screen dimensions
+  chrome.windows.getLastFocused((win) => {
+    const left = Math.round(win.left + (win.width - width) / 2);
+    const top = Math.round(win.top + (win.height - height) / 2);
+
+    chrome.windows.create({
+      url: `popup.html?url=${encodeURIComponent(url)}&text=${encodeURIComponent(selectedText)}`,
+      type: "popup",
+      width,
+      height,
+      left,
+      top
+    });
+  });
+}
+
+// Fallback popup if window creation fails
+function showPopup(url, selectedText, message) {
+  alert(message);
+}

@@ -29,6 +29,11 @@
     "service_worker": "background.js"
   },
 
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Deep Link Generator"
+  },
+
   "icons": {
     "128": "icon128.png"
   }
