@@ -1,9 +1,4 @@
-//
-// contentScript.js
-//
-// This script is not required for basic functionality.
-// It is included as an anchor point for future enhancements,
-// such as PDF-specific selection handling or UI improvements.
-//
+console.log("Text Fragment Link Generator V3 content script loaded.");
 
-console.log("Text Fragment Link Generator content script loaded.");
+// This script doesn't need to do anything - let the background script handle everything
+// The background script will inject its own script when the context menu is clicked

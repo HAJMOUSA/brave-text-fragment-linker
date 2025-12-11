@@ -57,6 +57,14 @@ Alternatively: click the toolbar icon to generate a link for the current selecti
 
 - On PDFs, use the **right-click context menu**. The toolbar button may not have access to the PDF viewer’s selection.
 - The extension detects Chromium’s PDF viewer and builds the link using the original PDF URL plus `#:~:text=`.
+- Clipboard copying is handled via an **offscreen document** so it works reliably even inside the PDF viewer.
+
+### Testing and tips
+
+- Reload the extension from `brave://extensions` → "Reload".
+- Open your PDF, highlight a short phrase (5–10 words), then right-click → **Generate link**.
+- The copied URL for PDFs uses `#search=` (not `#:~:text=`). Paste into a new tab to verify search highlighting.
+- If a phrase doesn’t highlight, try a simpler segment: PDFs can contain hidden or non-breaking spaces and hyphenations. The extension normalizes whitespace, but exact text may still differ.
 
 ---
 
