@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedTransport – Open-Source NEMT Scheduling</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR (desktop) ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="logo-icon">🚑</span>
+      <span class="logo-text">MedTransport</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-view="dashboard">
+        <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-view="patients">
+        <span class="nav-icon">👤</span><span class="nav-label">Patients</span>
+      </a>
+      <a href="#" class="nav-item" data-view="trips">
+        <span class="nav-icon">🗓️</span><span class="nav-label">Trips</span>
+      </a>
+      <a href="#" class="nav-item" data-view="import">
+        <span class="nav-icon">📥</span><span class="nav-label">Import Data</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="privacy-badge">🔒 All data stored locally</span>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content" id="mainContent">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+      <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      <button class="btn btn-primary btn-sm" id="topActionBtn" style="display:none"></button>
+    </header>
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <section class="view active" id="view-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon stat-blue">👤</div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-patients">0</span>
+            <span class="stat-label">Total Patients</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-green">✅</div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-today">0</span>
+            <span class="stat-label">Today's Trips</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-amber">⏳</div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-pending">0</span>
+            <span class="stat-label">Pending Trips</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-purple">🚗</div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-total-trips">0</span>
+            <span class="stat-label">Total Trips</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h2>Upcoming Trips</h2>
+      </div>
+      <div class="card">
+        <table class="data-table" id="dashboardTripsTable">
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Destination</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="dashboardTripBody">
+            <tr><td colspan="5" class="empty-row">No upcoming trips</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== PATIENTS ===================== -->
+    <section class="view" id="view-patients">
+      <div class="toolbar">
+        <div class="search-box">
+          <input type="search" id="patientSearch" placeholder="Search patients…" aria-label="Search patients" />
+        </div>
+        <div class="toolbar-actions">
+          <button class="btn btn-secondary" id="importPatientsBtn">📥 Import CSV</button>
+          <button class="btn btn-primary" id="addPatientBtn">+ Add Patient</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <table class="data-table" id="patientsTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date of Birth</th>
+              <th>Phone</th>
+              <th>Insurance</th>
+              <th>Mobility</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="patientTableBody">
+            <tr><td colspan="6" class="empty-row">No patients yet. Add one or import from CSV.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== TRIPS ===================== -->
+    <section class="view" id="view-trips">
+      <div class="toolbar">
+        <div class="search-box">
+          <input type="search" id="tripSearch" placeholder="Search trips…" aria-label="Search trips" />
+        </div>
+        <div class="toolbar-actions">
+          <button class="btn btn-secondary" id="importTripsBtn">📥 Import CSV</button>
+          <button class="btn btn-primary" id="addTripBtn">+ Schedule Trip</button>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="scheduled">Scheduled</button>
+        <button class="filter-chip" data-filter="in-progress">In Progress</button>
+        <button class="filter-chip" data-filter="completed">Completed</button>
+        <button class="filter-chip" data-filter="cancelled">Cancelled</button>
+      </div>
+
+      <div class="card">
+        <table class="data-table" id="tripsTable">
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Pickup</th>
+              <th>Dropoff</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tripTableBody">
+            <tr><td colspan="8" class="empty-row">No trips scheduled. Add one or import from CSV.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== IMPORT ===================== -->
+    <section class="view" id="view-import">
+      <div class="import-grid">
+
+        <!-- Patient CSV Import -->
+        <div class="card import-card">
+          <div class="import-icon">👤</div>
+          <h2>Import Patients</h2>
+          <p>Upload a CSV file with patient records. The first row must be a header row.</p>
+          <div class="csv-format">
+            <strong>Required columns:</strong>
+            <code>firstName, lastName, dob, phone, address, insurance, medicalId, mobilityNeeds, notes</code>
+          </div>
+          <a href="#" class="btn btn-secondary btn-sm" id="downloadPatientTemplate">⬇ Download Template</a>
+          <div class="drop-zone" id="patientDropZone">
+            <span class="drop-icon">📁</span>
+            <span>Drag &amp; drop CSV here, or</span>
+            <label class="btn btn-primary btn-sm" for="patientCsvInput">Browse file</label>
+            <input type="file" id="patientCsvInput" accept=".csv" class="hidden-input" aria-label="Upload patient CSV" />
+          </div>
+          <div class="import-feedback" id="patientImportFeedback"></div>
+        </div>
+
+        <!-- Trip CSV Import -->
+        <div class="card import-card">
+          <div class="import-icon">🗓️</div>
+          <h2>Import Trips</h2>
+          <p>Upload a CSV file with trip records. Patient records must exist first (matched by Medical ID).</p>
+          <div class="csv-format">
+            <strong>Required columns:</strong>
+            <code>medicalId, scheduledDate, scheduledTime, pickupAddress, dropoffAddress, tripType, status, driverNotes</code>
+          </div>
+          <a href="#" class="btn btn-secondary btn-sm" id="downloadTripTemplate">⬇ Download Template</a>
+          <div class="drop-zone" id="tripDropZone">
+            <span class="drop-icon">📁</span>
+            <span>Drag &amp; drop CSV here, or</span>
+            <label class="btn btn-primary btn-sm" for="tripCsvInput">Browse file</label>
+            <input type="file" id="tripCsvInput" accept=".csv" class="hidden-input" aria-label="Upload trip CSV" />
+          </div>
+          <div class="import-feedback" id="tripImportFeedback"></div>
+        </div>
+
+      </div>
+
+      <!-- Export section -->
+      <div class="section-header" style="margin-top:2rem">
+        <h2>Export / Backup</h2>
+      </div>
+      <div class="card export-card">
+        <p>Download all your data as CSV files for backup or migration. Your data never leaves this device.</p>
+        <div class="export-actions">
+          <button class="btn btn-secondary" id="exportPatientsBtn">⬇ Export Patients CSV</button>
+          <button class="btn btn-secondary" id="exportTripsBtn">⬇ Export Trips CSV</button>
+          <button class="btn btn-danger" id="clearDataBtn">🗑 Clear All Data</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== BOTTOM NAV (mobile) ===== -->
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="#" class="bottom-nav-item active" data-view="dashboard">
+      <span class="nav-icon">📊</span><span>Dashboard</span>
+    </a>
+    <a href="#" class="bottom-nav-item" data-view="patients">
+      <span class="nav-icon">👤</span><span>Patients</span>
+    </a>
+    <a href="#" class="bottom-nav-item" data-view="trips">
+      <span class="nav-icon">🗓️</span><span>Trips</span>
+    </a>
+    <a href="#" class="bottom-nav-item" data-view="import">
+      <span class="nav-icon">📥</span><span>Import</span>
+    </a>
+  </nav>
+
+  <!-- ===== MODAL ===== -->
+  <div class="modal-overlay hidden" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Modal</h2>
+        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer" id="modalFooter">
+        <button class="btn btn-secondary" id="modalCancelBtn">Cancel</button>
+        <button class="btn btn-primary" id="modalSaveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
